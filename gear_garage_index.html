@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<title>Gear Garage</title>
+<style>
+:root{--black:#090909;--panel:#141414;--panel2:#1c1c1c;--white:#f5f5f5;--muted:#9a9a9a;--red:#e3262e;--red2:#b8171e;--line:#303030}
+*{box-sizing:border-box}
+body{margin:0;background:var(--black);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:760px;margin:auto;padding:16px 13px 45px}
+header{display:flex;justify-content:space-between;align-items:center;padding:7px 2px 18px}
+.brand{display:flex;align-items:center;gap:11px}.logo{width:43px;height:43px;border-radius:12px;background:var(--red);display:grid;place-items:center;font-size:22px;font-weight:900}
+h1{font-size:20px;margin:0}.sub{font-size:10px;color:var(--muted);margin-top:2px}
+.add{background:var(--red);color:#fff;border:0;border-radius:11px;padding:10px 13px;font-weight:800}
+.hero{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(135deg,#1a1a1a,#0e0e0e);margin-bottom:13px}
+.hero b{font-size:20px}.hero p{color:var(--muted);font-size:11px;line-height:1.5;margin:6px 0 0}
+.main-tabs{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:13px}
+.main-tab{padding:16px;border-radius:15px;border:1px solid var(--line);background:var(--panel);color:#bbb;text-align:left}
+.main-tab strong{display:block;color:#fff;font-size:16px}.main-tab span{display:block;color:var(--muted);font-size:10px;margin-top:4px}.main-tab.active{border-color:var(--red);background:linear-gradient(135deg,#231113,#141414);box-shadow:inset 0 -2px var(--red)}
+.search{display:flex;margin-bottom:10px}.search input{width:100%;padding:11px 12px;background:#101010;color:#fff;border:1px solid var(--line);border-radius:11px;outline:0}
+.filters{display:flex;gap:6px;overflow:auto;margin-bottom:12px}.filter{border:1px solid var(--line);background:#111;color:#aaa;border-radius:99px;padding:7px 11px;font-size:10px;white-space:nowrap}.filter.active{background:#fff;color:#111;border-color:#fff;font-weight:800}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px}.stat b{display:block;font-size:15px}.stat span{font-size:9px;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:9px}.top{display:flex;justify-content:space-between;gap:10px}.title{font-weight:800;font-size:14px}.meta{font-size:9px;color:var(--muted);margin-top:4px}.price{font-weight:800;color:#fff;white-space:nowrap}.desc{font-size:11px;color:#bbb;line-height:1.45;margin-top:9px}.tag{display:inline-block;background:#242424;border:1px solid #383838;border-radius:99px;padding:4px 7px;font-size:9px;margin-top:8px}.actions{display:flex;gap:6px;margin-top:10px}.small{background:#242424;color:#eee;border:1px solid #3b3b3b;border-radius:9px;padding:7px 9px;font-size:10px}.primary{background:var(--red);border-color:var(--red);font-weight:800}.empty{text-align:center;border:1px dashed #333;border-radius:15px;padding:38px 15px;color:#888;font-size:12px}
+.overlay{position:fixed;inset:0;background:#000c;display:none;align-items:flex-end;z-index:30}.overlay.open{display:flex}.modal{width:min(760px,100%);max-height:94vh;overflow:auto;background:#151515;border:1px solid #3a3a3a;border-radius:22px 22px 0 0;padding:18px;box-shadow:0 -20px 70px #000}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.modal h2{font-size:18px;margin:0}.close{width:34px;height:34px;border:0;border-radius:10px;background:#292929;color:#fff;font-size:20px}
+.field{margin-bottom:11px}.field label{display:block;color:#aaa;font-size:10px;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;background:#0c0c0c;border:1px solid #363636;border-radius:10px;color:#fff;padding:11px;outline:0}.field textarea{min-height:80px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.save{width:100%;border:0;background:var(--red);color:#fff;padding:13px;border-radius:11px;font-weight:900;margin-top:3px}
+.notice{font-size:10px;color:#888;margin-top:8px;text-align:center}
+@media(max-width:520px){.app{padding:12px 10px}.row{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div class="brand"><div class="logo">GG</div><div><h1>Gear Garage</h1><div class="sub">AUTO · CAMPING · OUTDOOR</div></div></div>
+<button class="add" id="addBtn">＋ Hinzufügen</button>
+</header>
+
+<div class="hero"><b>Bereit fürs nächste Abenteuer?</b><p>Verwalte Fahrzeugteile, Campingausrüstung und deine nächsten Käufe an einem Ort.</p></div>
+
+<div class="main-tabs">
+<button class="main-tab active" id="autoTab"><strong>🚙 Auto</strong><span>Teile · Reifen · Offroad · Wartung</span></button>
+<button class="main-tab" id="campTab"><strong>🏕️ Camping</strong><span>Zelt · Kochen · Strom · Outdoor</span></button>
+</div>
+
+<div class="search"><input id="search" placeholder="🔎  Artikel suchen..."></div>
+<div class="filters" id="filters"></div>
+
+<div class="stats">
+<div class="stat"><b id="count">0</b><span>Artikel</span></div>
+<div class="stat"><b id="soon">0</b><span>Demnächst</span></div>
+<div class="stat"><b id="bought">0</b><span>Gekauft</span></div>
+<div class="stat"><b id="openCost">CHF 0</b><span>Noch offen</span></div>
+<div class="stat"><b id="spent">CHF 0</b><span>Ausgegeben</span></div>
+<div class="stat"><b id="total">CHF 0</b><span>Gesamtwert</span></div>
+</div>
+
+<section id="list"></section>
+</div>
+
+<div class="overlay" id="overlay">
+<div class="modal">
+<div class="modal-head"><h2 id="modalTitle">Artikel hinzufügen</h2><button class="close" id="closeBtn">×</button></div>
+<form id="form">
+<input type="hidden" id="editId">
+<div class="field"><label>Titel *</label><input id="name" required placeholder="z. B. BFGoodrich All-Terrain"></div>
+<div class="field"><label>Produkt-Link</label><input id="url" type="url" placeholder="https://shop.ch/produkt"></div>
+<div class="row">
+<div class="field"><label>Preis (CHF)</label><input id="price" type="number" min="0" step="0.01" placeholder="0.00"></div>
+<div class="field"><label>Status</label><select id="status"><option>Demnächst</option><option>Später</option><option>Gekauft</option><option>Verbaut</option></select></div>
+</div>
+<div class="row">
+<div class="field"><label>Bereich</label><select id="area"><option value="Auto">🚙 Auto</option><option value="Camping">🏕️ Camping</option></select></div>
+<div class="field"><label>Kategorie</label><select id="category"></select></div>
+</div>
+<div class="field"><label>Beschreibung / Notiz</label><textarea id="description" placeholder="z. B. warum du es möchtest, passend für welches Fahrzeug, Masse usw."></textarea></div>
+<button class="save" type="submit">💾 Artikel speichern</button>
+<div class="notice">Deine Einträge werden auf diesem Gerät gespeichert.</div>
+</form>
+</div>
+</div>
+
+<script>
+const KEY='gear-garage-final-v1';
+let items=JSON.parse(localStorage.getItem(KEY)||'null')||[];
+let section='Auto', statusFilter='Alle';
+
+const $=id=>document.getElementById(id);
+const autoCats=['Reifen & Felgen','Fahrzeugteile','Offroad-Zubehör','Dachträger & Dachzelt','Werkzeug','Wartung','Elektrik','Innenraum','Bergeausrüstung','Sonstiges'];
+const campCats=['Zelt & Schlafen','Kochen','Strom','Wasser','Beleuchtung','Möbel','Outdoor','Werkzeug','Organisation','Sonstiges'];
+
+function save(){localStorage.setItem(KEY,JSON.stringify(items))}
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function money(n){return 'CHF '+(Number(n)||0).toLocaleString('de-CH',{minimumFractionDigits:0,maximumFractionDigits:2})}
+
+function fillCategories(){
+ const cats=$('area').value==='Camping'?campCats:autoCats;
+ $('category').innerHTML=cats.map(x=>`<option>${x}</option>`).join('');
+}
+function renderFilters(){
+ const fs=['Alle','Demnächst','Später','Gekauft','Verbaut'];
+ $('filters').innerHTML=fs.map(x=>`<button class="filter ${x===statusFilter?'active':''}" onclick="statusFilter='${x}';render()">${x}</button>`).join('');
+}
+function render(){
+ $('autoTab').classList.toggle('active',section==='Auto');
+ $('campTab').classList.toggle('active',section==='Camping');
+ renderFilters();
+ const q=$('search').value.toLowerCase();
+ const arr=items.filter(x=>x.area===section && (statusFilter==='Alle'||x.status===statusFilter) && [x.name,x.category,x.description,x.status].join(' ').toLowerCase().includes(q));
+ const scoped=items.filter(x=>x.area===section);
+ const soon=scoped.filter(x=>x.status==='Demnächst').length;
+ const bought=scoped.filter(x=>['Gekauft','Verbaut'].includes(x.status)).length;
+ const open=scoped.filter(x=>!['Gekauft','Verbaut'].includes(x.status)).reduce((a,x)=>a+(Number(x.price)||0),0);
+ const spent=scoped.filter(x=>['Gekauft','Verbaut'].includes(x.status)).reduce((a,x)=>a+(Number(x.price)||0),0);
+ const total=scoped.reduce((a,x)=>a+(Number(x.price)||0),0);
+ $('count').textContent=scoped.length;$('soon').textContent=soon;$('bought').textContent=bought;$('openCost').textContent=money(open);$('spent').textContent=money(spent);$('total').textContent=money(total);
+ $('list').innerHTML=arr.length?arr.map(card).join(''):`<div class="empty">Noch keine Einträge in <b>${section}</b>.<br><br>Tippe oben auf <b>＋ Hinzufügen</b>.</div>`;
+}
+function card(x){
+ return `<article class="card">
+ <div class="top"><div><div class="title">${esc(x.name)}</div><div class="meta">${esc(x.category)}</div></div><div class="price">${x.price?money(x.price):'—'}</div></div>
+ <div class="desc">${esc(x.description||'Keine Beschreibung')}</div>
+ <span class="tag">${esc(x.status)}</span>
+ <div class="actions">${x.url?`<button class="small primary" onclick="openLink(${x.id})">🔗 Seite öffnen</button>`:''}<button class="small" onclick="editItem(${x.id})">✏️ Bearbeiten</button><button class="small" onclick="deleteItem(${x.id})">🗑️</button></div>
+ </article>`;
+}
+function openLink(id){
+ const x=items.find(i=>i.id===id);
+ if(x&&x.url) window.open(x.url,'_blank');
+}
+function openModal(){
+ $('overlay').classList.add('open');
+ $('form').reset();
+ $('editId').value='';
+ $('modalTitle').textContent='Artikel hinzufügen';
+ $('area').value=section;
+ fillCategories();
+ $('status').value='Demnächst';
+}
+function closeModal(){$('overlay').classList.remove('open')}
+function editItem(id){
+ const x=items.find(i=>i.id===id);if(!x)return;
+ $('overlay').classList.add('open');$('modalTitle').textContent='Artikel bearbeiten';
+ $('editId').value=x.id;$('name').value=x.name||'';$('url').value=x.url||'';$('price').value=x.price||'';$('status').value=x.status||'Demnächst';$('area').value=x.area||section;fillCategories();$('category').value=x.category||'';$('description').value=x.description||'';
+}
+function deleteItem(id){
+ if(confirm('Artikel wirklich löschen?')){items=items.filter(x=>x.id!==id);save();render()}
+}
+
+$('addBtn').addEventListener('click',openModal);
+$('closeBtn').addEventListener('click',closeModal);
+$('overlay').addEventListener('click',e=>{if(e.target===$('overlay'))closeModal()});
+$('autoTab').addEventListener('click',()=>{section='Auto';statusFilter='Alle';render()});
+$('campTab').addEventListener('click',()=>{section='Camping';statusFilter='Alle';render()});
+$('search').addEventListener('input',render);
+$('area').addEventListener('change',fillCategories);
+
+$('form').addEventListener('submit',e=>{
+ e.preventDefault();
+ const id=Number($('editId').value);
+ const x={id:id||Date.now(),name:$('name').value.trim(),url:$('url').value.trim(),price:Number($('price').value)||0,status:$('status').value,area:$('area').value,category:$('category').value,description:$('description').value.trim()};
+ if(!x.name)return;
+ if(id)items=items.map(i=>i.id===id?x:i);else items.unshift(x);
+ save();closeModal();section=x.area;statusFilter='Alle';render();
+});
+fillCategories();render();
+</script>
+</body>
+</html>
